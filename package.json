@@ -1,14 +1,14 @@
 {
   "name": "elearnig-api",
   "version": "1.0.0",
-  "description": "",
+  "description": "A RESTful API built using Node.js, Express, and MongoDB for creating and managing an e-learning platform where instructors can create courses, and students can enroll in courses, access course materials, and attempt quizzes.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon index.js"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["elearnig","api", "nodejs","express", "online learning","course management"],
+  "author": "Shahghasi Adil",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
