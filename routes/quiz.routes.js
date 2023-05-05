@@ -16,5 +16,10 @@ router.get(
   auth,
   quizController.getQuizzesByCourse
 );
-router.post("/quizzes/:quizId/attempt", auth, quizController.attemptQuiz);
+router.post(
+  "/quizzes/:quizId/attempt",
+  auth,
+  authorize("student"),
+  quizController.attemptQuiz
+);
 module.exports = router;

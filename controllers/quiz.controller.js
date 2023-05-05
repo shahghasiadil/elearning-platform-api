@@ -1,4 +1,5 @@
 const Quiz = require("../models/quiz.model");
+const Course = require("../models/course.model");
 
 const createQuiz = async (req, res) => {
   const quiz = new Quiz({ ...req.body, course: req.params.courseId });
@@ -26,7 +27,15 @@ const attemptQuiz = async (req, res) => {
     if (!quiz) {
       return res.status(404).send({ error: "Quiz not found" });
     }
+    const courseId = quiz.course._id;
+    const studentId = req.user._id;
+    const course = await Course.findById(courseId);
 
+    if (!course.enrolledStudents.includes(studentId)) {
+      return res.status(403).send({
+        error: "You must be enrolled in the course to attempt the quiz",
+      });
+    }
     const answers = req.body.answers;
     const totalQuestions = quiz.questions.length;
     let correctAnswers = 0;
