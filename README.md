@@ -25,6 +25,10 @@ cd elearning-platform-api
 
 2. Install the dependencies:
 
+```
+npm install
+```
+
 3. Create a `.env` file in the root directory and add your MongoDB connection string and JWT secret:
 
 4. Start the server:
