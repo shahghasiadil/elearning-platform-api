@@ -16,6 +16,12 @@ const courseSchema = new mongoose.Schema({
     maxlength: 500,
   },
   createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  enrolledStudents: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+    },
+  ],
 });
 
 module.exports = mongoose.model('Course', courseSchema);
