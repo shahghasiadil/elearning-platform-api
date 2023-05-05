@@ -116,6 +116,27 @@ const enrollInCourse = async (req, res) => {
   }
 };
 
+const uploadCourseMaterial = async (req, res) => {
+  try {
+    const course = await Course.findById(req.params.id);
+
+    if (!course) {
+      return res.status(404).send({ error: "Course not found" });
+    }
+
+    // Save the uploaded file's path to the course materials array
+    course.materials.push(req.file.path);
+    await course.save();
+
+    res.status(201).send({
+      message: "Course material uploaded successfully",
+      path: req.file.path,
+    });
+  } catch (error) {
+    res.status(500).send({ error: "Error uploading course material" });
+  }
+};
+
 module.exports = {
   createCourse,
   getCourses,
@@ -123,4 +144,5 @@ module.exports = {
   updateCourse,
   deleteCourse,
   enrollInCourse,
+  uploadCourseMaterial,
 };

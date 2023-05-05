@@ -28,6 +28,11 @@ const courseSchema = new mongoose.Schema({
       ref: "Quiz",
     },
   ],
+  materials: [
+    {
+      type: String,
+    },
+  ],
 });
 
 module.exports = mongoose.model("Course", courseSchema);

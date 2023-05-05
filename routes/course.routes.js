@@ -2,7 +2,7 @@ const express = require("express");
 const courseController = require("../controllers/course.controller");
 const auth = require("../middlewares/auth");
 const { authorize } = require("../utils/role");
-
+const upload = require("../middlewares/multerConfig");
 const router = new express.Router();
 
 router.post("/", auth, authorize("instructor"), courseController.createCourse);
@@ -26,5 +26,14 @@ router.post(
   auth,
   authorize("student"),
   courseController.enrollInCourse
+);
+
+// Route to upload course material (Instructor only)
+router.post(
+  "/:id/materials",
+  auth,
+  authorize("instructor"),
+  upload.single("materials"),
+  courseController.uploadCourseMaterial
 );
 module.exports = router;

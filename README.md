@@ -59,6 +59,7 @@ The API will be available at `http://localhost:3000/api`.
 - PATCH `/api/courses/:id`: Update a course (Instructor only)
 - DELETE `/api/courses/:id`: Delete a course (Instructor only)
 - POST `/api/courses/:id/enroll`: Enroll in a course (Student only)
+- POST `/api/courses/:id/materials`: Upload course materials (Instructor only)
 
 ### Quizzes
 
