@@ -5,7 +5,7 @@ A RESTful API built using Node.js, Express, and MongoDB for creating and managin
 ## Features
 
 - User authentication and authorization with JWT
-- Role-based access control (Student and Instructor)
+- Role-based access control (Student, Admin and Instructor)
 - Course management (Create, Read, Update, Delete)
 - Student enrollment in courses
 - Quiz management (Create quizzes with multiple-choice questions)
@@ -48,7 +48,7 @@ The API will be available at `http://localhost:3000/api`.
 - GET `/api/auth/me`: Get the logged-in user's profile
 - PATCH `/api/auth/me`: Update the logged-in user's profile
 - DELETE `/api/auth/me`: Delete the logged-in user's profile
-- GET `/api/auth/users`: Get all users (Instructor only)
+- GET `/api/auth/users`: Get all users (Admin only)
 - GET `/api/auth/instructors/:id/courses`: Get Instructor Courses
 
 ### Courses
