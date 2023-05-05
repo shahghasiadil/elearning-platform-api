@@ -1,5 +1,6 @@
-const Course = require('../models/course.model');
+const Course = require("../models/course.model");
 
+// Create Course
 const createCourse = async (req, res) => {
   const course = new Course({ ...req.body, createdBy: req.user._id });
 
@@ -29,7 +30,7 @@ const getCourseById = async (req, res) => {
     const course = await Course.findOne({ _id });
 
     if (!course) {
-      return res.status(404).send({ error: 'Course not found.' });
+      return res.status(404).send({ error: "Course not found." });
     }
 
     res.status(200).send(course);
@@ -41,18 +42,23 @@ const getCourseById = async (req, res) => {
 // Update course
 const updateCourse = async (req, res) => {
   const updates = Object.keys(req.body);
-  const allowedUpdates = ['title', 'description'];
-  const isValidOperation = updates.every((update) => allowedUpdates.includes(update));
+  const allowedUpdates = ["title", "description"];
+  const isValidOperation = updates.every((update) =>
+    allowedUpdates.includes(update)
+  );
 
   if (!isValidOperation) {
-    return res.status(400).send({ error: 'Invalid updates!' });
+    return res.status(400).send({ error: "Invalid updates!" });
   }
 
   try {
-    const course = await Course.findOne({ _id: req.params.id, createdBy: req.user._id });
+    const course = await Course.findOne({
+      _id: req.params.id,
+      createdBy: req.user._id,
+    });
 
     if (!course) {
-      return res.status(404).send({ error: 'Course not found.' });
+      return res.status(404).send({ error: "Course not found." });
     }
 
     updates.forEach((update) => (course[update] = req.body[update]));
@@ -67,10 +73,13 @@ const updateCourse = async (req, res) => {
 // Delete course
 const deleteCourse = async (req, res) => {
   try {
-    const course = await Course.findOneAndDelete({ _id: req.params.id, createdBy: req.user._id });
+    const course = await Course.findOneAndDelete({
+      _id: req.params.id,
+      createdBy: req.user._id,
+    });
 
     if (!course) {
-      return res.status(404).send({ error: 'Course not found.' });
+      return res.status(404).send({ error: "Course not found." });
     }
 
     res.status(200).send(course);
@@ -79,6 +88,7 @@ const deleteCourse = async (req, res) => {
   }
 };
 
+// Enroll Course by Student
 const enrollInCourse = async (req, res) => {
   const courseId = req.params.id;
   const studentId = req.user._id;
@@ -86,19 +96,23 @@ const enrollInCourse = async (req, res) => {
   try {
     const course = await Course.findById(courseId);
     if (!course) {
-      return res.status(404).send({ error: 'Course not found' });
+      return res.status(404).send({ error: "Course not found" });
     }
 
     if (course.enrolledStudents.includes(studentId)) {
-      return res.status(400).send({ error: 'Student already enrolled in this course' });
+      return res
+        .status(400)
+        .send({ error: "Student already enrolled in this course" });
     }
 
     course.enrolledStudents.push(studentId);
     await course.save();
 
-    res.status(200).send({ message: 'Enrolled in course successfully', course });
+    res
+      .status(200)
+      .send({ message: "Enrolled in course successfully", course });
   } catch (error) {
-    res.status(500).send({ error: 'Error enrolling in course' });
+    res.status(500).send({ error: "Error enrolling in course" });
   }
 };
 
@@ -108,7 +122,5 @@ module.exports = {
   getCourseById,
   updateCourse,
   deleteCourse,
-  enrollInCourse
+  enrollInCourse,
 };
-
-

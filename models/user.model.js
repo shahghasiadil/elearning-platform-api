@@ -1,8 +1,8 @@
-const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
-const validator = require('validator');
-const dotenv = require('dotenv');
-const jwt = require('jsonwebtoken');
+const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
+const validator = require("validator");
+const dotenv = require("dotenv");
+const jwt = require("jsonwebtoken");
 dotenv.config();
 
 const userSchema = new mongoose.Schema({
@@ -15,7 +15,7 @@ const userSchema = new mongoose.Schema({
     lowercase: true,
     validate(value) {
       if (!validator.isEmail(value)) {
-        throw new Error('Email is invalid');
+        throw new Error("Email is invalid");
       }
     },
   },
@@ -25,12 +25,12 @@ const userSchema = new mongoose.Schema({
     minlength: 6,
     trim: true,
     validate(value) {
-      if (value.toLowerCase().includes('password')) {
+      if (value.toLowerCase().includes("password")) {
         throw new Error('Password must not contain the word "password"');
       }
     },
   },
-  role: { type: String, default: 'student' },
+  role: { type: String, default: "student" },
   tokens: [
     {
       token: {
@@ -40,8 +40,8 @@ const userSchema = new mongoose.Schema({
     },
   ],
 });
-userSchema.pre('save', async function (next) {
-  if (this.isModified('password')) {
+userSchema.pre("save", async function (next) {
+  if (this.isModified("password")) {
     this.password = await bcrypt.hash(this.password, 10);
   }
   next();
@@ -70,4 +70,4 @@ userSchema.methods.toJSON = function () {
   return userObject;
 };
 
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model("User", userSchema);

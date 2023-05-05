@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const courseSchema = new mongoose.Schema({
   title: {
@@ -15,14 +15,19 @@ const courseSchema = new mongoose.Schema({
     minlength: 10,
     maxlength: 500,
   },
-  createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   enrolledStudents: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+      ref: "User",
+    },
+  ],
+  quizzes: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Quiz",
     },
   ],
 });
 
-module.exports = mongoose.model('Course', courseSchema);
-
+module.exports = mongoose.model("Course", courseSchema);
