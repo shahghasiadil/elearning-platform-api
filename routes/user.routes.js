@@ -11,5 +11,6 @@ router.get('/me', auth, userController.getProfile);
 router.patch('/me', auth, userController.updateProfile);
 router.delete('/me', auth, userController.deleteProfile);
 router.get('/users', auth, authorize('admin'), userController.getUsers);
+router.get('/instructors/:id/courses', auth, authorize('instructor'), userController.getInstructorCourses);
 
 module.exports = router;

@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const validator = require('validator');
 
 const courseSchema = new mongoose.Schema({
   title: {
@@ -21,4 +20,3 @@ const courseSchema = new mongoose.Schema({
 
 module.exports = mongoose.model('Course', courseSchema);
 
-module.exports = mongoose.model('Course', courseSchema);

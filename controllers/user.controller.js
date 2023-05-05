@@ -1,5 +1,5 @@
 const User = require('../models/user.model');
-
+const Course = require('../models/course.model')
 const dotenv = require('dotenv');
 
 dotenv.config();
@@ -76,10 +76,26 @@ const deleteProfile = async (req, res) => {
 // Get all users (admin only)
 const getUsers = async (req, res) => {
   try {
-    const users = await User.find({}).toJSON();
+    const users = await User.find({});
     res.send(users);
   } catch (error) {
     res.status(500).send(error);
+  }
+};
+const getInstructorCourses = async (req, res) => {
+  const instructorId = req.params.id;
+
+  try {
+    const instructor = await User.findById(instructorId).select('-password -tokens');
+
+    if (!instructor) {
+      return res.status(404).send({ error: 'Instructor not found' });
+    }
+
+    const courses = await Course.find({ createdBy: instructor._id });
+    res.status(200).send({ instructor, courses });
+  } catch (error) {
+    res.status(500).send({ error: 'Error fetching instructor courses' });
   }
 };
 
@@ -90,4 +106,5 @@ module.exports = {
   updateProfile,
   deleteProfile,
   getUsers,
+  getInstructorCourses
 };

@@ -12,7 +12,7 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-app.use('/api/users', userRoutes);
+app.use('/api/auth', userRoutes);
 app.use('/api/courses', courseRoutes);
 
 app.listen(process.env.PORT, () => {
