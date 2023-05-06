@@ -26,4 +26,11 @@ router.post(
   upload.single("materials"),
   courseController.uploadCourseMaterial
 );
+
+router.get("/:courseId/lessons", courseController.getCourseLessons);
+router.post("/:courseId/lessons", courseController.createLesson);
+router.get("/:courseId/lessons/:lessonId", courseController.getLesson);
+router.patch("/:courseId/lessons/:lessonId", courseController.updateLesson);
+router.delete("/:courseId/lessons/:lessonId", courseController.deleteLesson);
+
 module.exports = router;

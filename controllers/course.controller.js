@@ -1,4 +1,5 @@
 const Course = require("../models/course.model");
+const Lesson = require("../models/lesson.model");
 
 // Create Course
 const createCourse = async (req, res) => {
@@ -137,6 +138,143 @@ const uploadCourseMaterial = async (req, res) => {
   }
 };
 
+// Create course lesson
+const createLesson = async (req, res) => {
+  const { courseId } = req.params;
+  const { title, content } = req.body;
+
+  try {
+    const course = await Course.findById(courseId);
+    if (!course) {
+      return res.status(404).json({ error: "Course not found" });
+    }
+
+    // Ensure the user is the course creator
+    if (course.createdBy.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ error: "Unauthorized" });
+    }
+
+    const lesson = new Lesson({
+      title,
+      content,
+      course: courseId,
+    });
+
+    await lesson.save();
+
+    course.lessons.push(lesson._id);
+    await course.save();
+
+    res.status(201).json(lesson);
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+const getLesson = async (req, res) => {
+  const { courseId, lessonId } = req.params;
+
+  try {
+    const course = await Course.findById(courseId);
+    if (!course) {
+      return res.status(404).json({ error: "Course not found" });
+    }
+
+    const lesson = await Lesson.findOne({ _id: lessonId, course: courseId });
+    if (!lesson) {
+      return res.status(404).json({ error: "Lesson not found" });
+    }
+
+    res.status(200).json(lesson);
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+const updateLesson = async (req, res) => {
+  const { courseId, lessonId } = req.params;
+  const { title, content } = req.body;
+
+  try {
+    const course = await Course.findById(courseId);
+    if (!course) {
+      return res.status(404).json({ error: "Course not found" });
+    }
+
+    if (course.createdBy.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ error: "Unauthorized" });
+    }
+
+    const lesson = await Lesson.findOneAndUpdate(
+      { _id: lessonId, course: courseId },
+      { title, content },
+      { new: true, runValidators: true }
+    );
+
+    if (!lesson) {
+      return res.status(404).json({ error: "Lesson not found" });
+    }
+
+    res.status(200).json(lesson);
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+const deleteLesson = async (req, res) => {
+  const { courseId, lessonId } = req.params;
+
+  try {
+    const course = await Course.findById(courseId);
+    if (!course) {
+      return res.status(404).json({ error: "Course not found" });
+    }
+
+    if (course.createdBy.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ error: "Unauthorized" });
+    }
+
+    const lesson = await Lesson.findOneAndDelete({
+      _id: lessonId,
+      course: courseId,
+    });
+
+    if (!lesson) {
+      return res.status(404).json({ error: "Lesson not found" });
+    }
+
+    course.lessons = course.lessons.filter((id) => id.toString() !== lessonId);
+    await course.save();
+
+    res.status(200).json({ message: "Lesson deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+const getCourseLessons = async (req, res) => {
+  const { courseId } = req.params;
+
+  try {
+    const course = await Course.findById(courseId).populate("lessons");
+    if (!course) {
+      return res.status(404).json({ error: "Course not found" });
+    }
+
+    const courseWithLessons = {
+      _id: course._id,
+      title: course.title,
+      description: course.description,
+      createdBy: course.createdBy,
+      lessons: course.lessons,
+    };
+
+    res.status(200).json(courseWithLessons);
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 module.exports = {
   createCourse,
   getCourses,
@@ -145,4 +283,9 @@ module.exports = {
   deleteCourse,
   enrollInCourse,
   uploadCourseMaterial,
+  createLesson,
+  updateLesson,
+  deleteLesson,
+  getLesson,
+  getCourseLessons,
 };
