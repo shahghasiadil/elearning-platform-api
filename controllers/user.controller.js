@@ -100,7 +100,18 @@ const getInstructorCourses = async (req, res) => {
     res.status(500).send({ error: "Error fetching instructor courses" });
   }
 };
+const getLeaderboard = async (req, res) => {
+  try {
+    const users = await User.find({})
+      .select("name points badges")
+      .populate("badges")
+      .sort({ points: -1 }); // Sort by points in descending order
 
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
 module.exports = {
   registerUser,
   loginUser,
@@ -109,4 +120,5 @@ module.exports = {
   deleteProfile,
   getUsers,
   getInstructorCourses,
+  getLeaderboard,
 };

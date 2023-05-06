@@ -17,5 +17,5 @@ router.get(
   authorize("instructor"),
   userController.getInstructorCourses
 );
-
+router.get("/leaderboard", userController.getLeaderboard);
 module.exports = router;

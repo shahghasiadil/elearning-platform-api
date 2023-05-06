@@ -32,6 +32,9 @@ exports.markLessonAsComplete = async (req, res) => {
         // Increase user's points
         user.points += 10; // Award 10 points for completing a lesson
         await user.save();
+
+        // Check and award badges
+        await checkAndAwardBadge(user._id);
       }
     } else {
       const newProgress = new Progress({
@@ -43,6 +46,9 @@ exports.markLessonAsComplete = async (req, res) => {
       // Increase user's points
       user.points += 10; // Award 10 points for completing a lesson
       await user.save();
+
+      // Check and award badges
+      await checkAndAwardBadge(user._id);
     }
 
     res.status(200).json({ message: "Lesson marked as complete" });
