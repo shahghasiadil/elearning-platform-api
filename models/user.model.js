@@ -43,6 +43,12 @@ const userSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  badges: [
+    {
+      type: ObjectId,
+      ref: "Badge",
+    },
+  ],
 });
 userSchema.pre("save", async function (next) {
   if (this.isModified("password")) {
