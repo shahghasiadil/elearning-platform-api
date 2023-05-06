@@ -1,15 +1,18 @@
 # E-Learning Platform API
 
-A RESTful API built using Node.js, Express, and MongoDB for creating and managing an e-learning platform where instructors can create courses, and students can enroll in courses, access course materials, and attempt quizzes.
+A RESTful API built using Node.js, Express, and MongoDB for creating and managing an e-learning platform where instructors can create courses, and students can enroll in courses, access course materials, and attempt quizzes. The platform also features user authentication and authorization, discussion forums, progress tracking, and gamification.
 
 ## Features
 
 - User authentication and authorization with JWT
 - Role-based access control (Student, Admin and Instructor)
-- Course management (Create, Read, Update, Delete)
+- Course and lesson management (Create, Read, Update, Delete)
 - Student enrollment in courses
 - Quiz management (Create quizzes with multiple-choice questions)
 - Quiz attempts and score tracking
+- Discussion forums with posts and comments
+- Progress tracking for students
+- Gamification with badges and leaderboard
 
 ## Prerequisites
 
@@ -89,6 +92,22 @@ The API will be available at `http://localhost:3000/api`.
 - GET `/api/courses/:courseId/lessons/:lessonId`: Get a specific lesson by its ID
 - PUT `/api/courses/:courseId/lessons/:lessonId`: Update a lesson (Course instructor only)
 - DELETE `/api/courses/:courseId/lessons/:lessonId`: Delete a lesson (Course instructor only)
+
+### Badges
+
+- POST `/api/badges`: Create a badge (Admin only)
+- GET `/api/badges`: Get all badges (Admin only)
+- PUT `/api/badges/:badgeId`: Update a badge (Admin only)
+- DELETE `/api/badges/:badgeId`: Delete a badge (Admin only)
+
+### Progress
+
+- GET `/api/courses/:courseId/progress`: Get course progress for the current user (Student only, enrolled courses)
+- POST `/api/courses/:courseId/progress/:lessonId`: Mark a lesson as completed (Student only, enrolled courses)
+
+### Leaderboard
+
+- GET `/api/leaderboard`: Get the leaderboard based on total points
 
 ## License
 

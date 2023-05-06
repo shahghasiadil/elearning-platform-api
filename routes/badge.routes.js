@@ -2,7 +2,7 @@
 const express = require("express");
 const badgeController = require("../controllers/badge.controller");
 const auth = require("../middlewares/auth");
-const authorize = require("../utils/role");
+const { authorize } = require("../utils/role");
 
 const router = express.Router();
 
