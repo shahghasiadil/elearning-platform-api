@@ -24,7 +24,7 @@ A RESTful API built using Node.js, Express, and MongoDB for creating and managin
 1. Clone the repository:
    `git clone https://github.com/shahghasiadil/elearning-platform-api`
 
-cd elearning-platform-api
+`cd elearning-platform-api`
 
 2. Install the dependencies:
 
