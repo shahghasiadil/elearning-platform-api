@@ -82,6 +82,14 @@ The API will be available at `http://localhost:3000/api`.
 - PUT `/api/courses/:courseId/forums/:postId/comments/:commentId`: Update a comment (Comment author only)
 - DELETE `/api/courses/:courseId/forums/:postId/comments/:commentId`: Delete a comment (Comment author only)
 
+### Lessons
+
+- POST `/api/courses/:courseId/lessons`: Create a lesson for a course (Course instructor only)
+- GET `/api/courses/:courseId/lessons`: Get all lessons for a course
+- GET `/api/courses/:courseId/lessons/:lessonId`: Get a specific lesson by its ID
+- PUT `/api/courses/:courseId/lessons/:lessonId`: Update a lesson (Course instructor only)
+- DELETE `/api/courses/:courseId/lessons/:lessonId`: Delete a lesson (Course instructor only)
+
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
