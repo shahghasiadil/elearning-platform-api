@@ -18,6 +18,7 @@ app.use("/api/auth", userRoutes);
 app.use("/api/courses", courseRoutes);
 app.use("/api", quizRoutes);
 app.use("/courses/:courseId/forums", forumRoutes);
+
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on port ${process.env.PORT}`);
 });

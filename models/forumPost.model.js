@@ -10,7 +10,7 @@ const forumPostSchema = new mongoose.Schema({
     required: true,
   },
   createdBy: {
-    type: mongoose.Schem-a.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     required: true,
   },

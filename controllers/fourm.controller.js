@@ -1,4 +1,4 @@
-const ForumPost = require("../models/forumPost");
+const ForumPost = require("../models/forumPost.model");
 
 const createPost = async (req, res) => {
   try {
