@@ -5,25 +5,24 @@ const { authorize } = require("../utils/role");
 const upload = require("../middlewares/multerConfig");
 const router = new express.Router();
 
-router.post("/", auth, authorize("instructor"), courseController.createCourse);
-router.get("/", auth, courseController.getCourses);
-router.get("/:id", auth, courseController.getCourseById);
+router.use(auth);
+
+router.post("/", authorize("instructor"), courseController.createCourse);
+router.get("/", courseController.getCourses);
+router.get("/:id", courseController.getCourseById);
 router.patch(
   "/:id",
-  auth,
   authorize("instructor"),
   courseController.updateCourse
 );
 router.delete(
   "/:id",
-  auth,
   authorize("instructor"),
   courseController.deleteCourse
 );
 
 router.post(
   "/:id/enroll",
-  auth,
   authorize("student"),
   courseController.enrollInCourse
 );
@@ -31,7 +30,6 @@ router.post(
 // Route to upload course material (Instructor only)
 router.post(
   "/:id/materials",
-  auth,
   authorize("instructor"),
   upload.single("materials"),
   courseController.uploadCourseMaterial
