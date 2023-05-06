@@ -32,18 +32,15 @@ const getPosts = async (req, res) => {
 
 const searchPosts = async (req, res) => {
   try {
-    const tags = req.query.tags;
+    const { tags } = req.query;
+    let query = { course: req.params.courseId };
 
-    if (!tags) {
-      return res
-        .status(400)
-        .json({ message: "Tags query parameter is required" });
+    if (tags) {
+      const tagArray = tags.split(",").map((tag) => tag.trim());
+      query.tags = { $in: tagArray };
     }
 
-    const posts = await ForumPost.find({
-      course: req.params.courseId,
-      tags: { $in: tags },
-    }).populate("createdBy", "name");
+    const posts = await ForumPost.find(query).populate("createdBy", "name");
     res.status(200).json(posts);
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -61,11 +58,9 @@ const updatePost = async (req, res) => {
     );
 
     if (!updatedPost) {
-      return res
-        .status(404)
-        .json({
-          message: "Post not found or you do not have permission to edit it.",
-        });
+      return res.status(404).json({
+        message: "Post not found or you do not have permission to edit it.",
+      });
     }
 
     res.status(200).json(updatedPost);
