@@ -53,21 +53,22 @@ const searchPosts = async (req, res) => {
 const updatePost = async (req, res) => {
   try {
     const { title, content, tags } = req.body;
-    const post = await ForumPost.findOne({
-      _id: req.params.postId,
-      createdBy: req.user._id,
-    });
 
-    if (!post) {
-      return res.status(404).json({ message: "Post not found" });
+    const updatedPost = await ForumPost.findOneAndUpdate(
+      { _id: req.params.postId, createdBy: req.user._id },
+      { title, content, tags },
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedPost) {
+      return res
+        .status(404)
+        .json({
+          message: "Post not found or you do not have permission to edit it.",
+        });
     }
 
-    if (title) post.title = title;
-    if (content) post.content = content;
-    if (tags) post.tags = tags.split(",").map((tag) => tag.trim());
-
-    await post.save();
-    res.status(200).json(post);
+    res.status(200).json(updatedPost);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
