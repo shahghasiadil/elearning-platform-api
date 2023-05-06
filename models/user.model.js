@@ -39,6 +39,10 @@ const userSchema = new mongoose.Schema({
       },
     },
   ],
+  points: {
+    type: Number,
+    default: 0,
+  },
 });
 userSchema.pre("save", async function (next) {
   if (this.isModified("password")) {

@@ -2,10 +2,15 @@
 const Progress = require("../models/progress.model");
 const Course = require("../models/course.model");
 const Lesson = require("../models/lesson.model");
+const userModel = require("../models/user.model");
 
 exports.markLessonAsComplete = async (req, res) => {
   const { courseId, lessonId } = req.params;
   const userId = req.user._id;
+  const user = await userModel.findById(userId);
+  if (!user) {
+    return res.status(404).json({ error: "User or lesson not found" });
+  }
 
   try {
     const course = await Course.findById(courseId);
@@ -24,6 +29,9 @@ exports.markLessonAsComplete = async (req, res) => {
       if (!progress.completedLessons.includes(lessonId)) {
         progress.completedLessons.push(lessonId);
         await progress.save();
+        // Increase user's points
+        user.points += 10; // Award 10 points for completing a lesson
+        await user.save();
       }
     } else {
       const newProgress = new Progress({
@@ -32,6 +40,9 @@ exports.markLessonAsComplete = async (req, res) => {
         completedLessons: [lessonId],
       });
       await newProgress.save();
+      // Increase user's points
+      user.points += 10; // Award 10 points for completing a lesson
+      await user.save();
     }
 
     res.status(200).json({ message: "Lesson marked as complete" });
