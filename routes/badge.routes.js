@@ -1,4 +1,3 @@
-// routes/badgeRoutes.js
 const express = require("express");
 const badgeController = require("../controllers/badge.controller");
 const auth = require("../middlewares/auth");
