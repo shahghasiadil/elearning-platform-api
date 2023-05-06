@@ -10,16 +10,8 @@ router.use(auth);
 router.post("/", authorize("instructor"), courseController.createCourse);
 router.get("/", courseController.getCourses);
 router.get("/:id", courseController.getCourseById);
-router.patch(
-  "/:id",
-  authorize("instructor"),
-  courseController.updateCourse
-);
-router.delete(
-  "/:id",
-  authorize("instructor"),
-  courseController.deleteCourse
-);
+router.patch("/:id", authorize("instructor"), courseController.updateCourse);
+router.delete("/:id", authorize("instructor"), courseController.deleteCourse);
 
 router.post(
   "/:id/enroll",
