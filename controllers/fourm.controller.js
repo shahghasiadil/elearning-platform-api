@@ -3,16 +3,17 @@ const ForumPost = require("../models/forumPost.model");
 const createPost = async (req, res) => {
   try {
     const { title, content, tags } = req.body;
-    const post = new ForumPost({
+
+    const newPost = new ForumPost({
       title,
       content,
+      tags,
       createdBy: req.user._id,
       course: req.params.courseId,
-      tags: tags ? tags.split(",").map((tag) => tag.trim()) : [],
     });
 
-    await post.save();
-    res.status(201).json(post);
+    await newPost.save();
+    res.status(201).json(newPost);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -31,15 +32,18 @@ const getPosts = async (req, res) => {
 
 const searchPosts = async (req, res) => {
   try {
-    const { tags } = req.query;
-    let query = { course: req.params.courseId };
+    const tags = req.query.tags;
 
-    if (tags) {
-      const tagArray = tags.split(",").map((tag) => tag.trim());
-      query.tags = { $in: tagArray };
+    if (!tags) {
+      return res
+        .status(400)
+        .json({ message: "Tags query parameter is required" });
     }
 
-    const posts = await ForumPost.find(query).populate("createdBy", "name");
+    const posts = await ForumPost.find({
+      course: req.params.courseId,
+      tags: { $in: tags },
+    }).populate("createdBy", "name");
     res.status(200).json(posts);
   } catch (error) {
     res.status(400).json({ message: error.message });
