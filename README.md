@@ -67,6 +67,21 @@ The API will be available at `http://localhost:3000/api`.
 - GET `/api/courses/:courseId/quizzes`: Get all quizzes for a course
 - POST `/api/quizzes/:quizId/attempt`: Attempt a quiz (Student only, enrolled courses)
 
+### Forums
+
+- POST `/api/courses/:courseId/forums`: Create a forum post for a course (Authenticated users)
+- GET `/api/courses/:courseId/forums`: Get all forum posts for a course
+- PUT `/api/courses/:courseId/forums/:postId`: Update a forum post (Post author only)
+- DELETE `/api/courses/:courseId/forums/:postId`: Delete a forum post (Post author only)
+- GET `/api/courses/:courseId/forums/:postId`: Get a forum post by ID
+
+### Comments
+
+- POST `/api/courses/:courseId/forums/:postId/comments`: Create a comment for a forum post (Authenticated users)
+- GET `/api/courses/:courseId/forums/:postId/comments`: Get all comments for a forum post
+- PUT `/api/courses/:courseId/forums/:postId/comments/:commentId`: Update a comment (Comment author only)
+- DELETE `/api/courses/:courseId/forums/:postId/comments/:commentId`: Delete a comment (Comment author only)
+
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
