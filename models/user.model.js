@@ -45,7 +45,7 @@ const userSchema = new mongoose.Schema({
   },
   badges: [
     {
-      type: ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "Badge",
     },
   ],
